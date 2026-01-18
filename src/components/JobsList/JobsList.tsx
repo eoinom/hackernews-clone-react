@@ -1,5 +1,5 @@
-import JobCard, { type JobPost } from './JobCard';
-import './jobslist.scss';
+import JobCard, { type JobPost } from '../JobCard/JobCard';
+import './jobsList.scss';
 
 export type JobsListProps = {
   jobs: JobPost[];

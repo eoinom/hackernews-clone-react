@@ -1,4 +1,5 @@
-import './jobcard.scss';
+import { Link } from 'react-router-dom';
+import './jobCard.scss';
 
 export type JobPost = {
   id: number;
@@ -19,22 +20,12 @@ export default function JobCard({ job }: JobCardProps) {
       className='job-card'
     >
       <h2 className='job-card__title'>
-        {job.url ? (
-          <a
-            className='job-card__title--link'
-            href={
-              job.url
-                ? job.url
-                : `https://news.ycombinator.com/item?id=${job.id}`
-            }
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            {job.title}
-          </a>
-        ) : (
-          job.title
-        )}
+        <Link
+          className='job-card__title--link'
+          to={`jobs/${job.id}`}
+        >
+          {job.title}
+        </Link>
       </h2>
       <p className='job-card__meta'>
         By {job.by} - {job.postedAt}

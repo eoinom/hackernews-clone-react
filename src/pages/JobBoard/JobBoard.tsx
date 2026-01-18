@@ -1,20 +1,15 @@
 import { useEffect, useState } from 'react';
-import JobsList, { type JobsListProps } from './JobsList';
-import './hackernews.scss';
+import JobsList, {
+  type JobsListProps,
+} from '../../components/JobsList/JobsList';
+import type { HackerNewsJob } from '../../components/types/hackerNews';
+import { timestampToDateAndTime } from '../../utils/formatTimestamp';
+import { HN_API_URL } from '../../constants/api';
+import './jobBoard.scss';
 
-type HackerNewsJob = {
-  id: number;
-  by: string;
-  title: string;
-  time: number;
-  type: string;
-  url?: string;
-};
-
-const HN_API_URL = 'https://hacker-news.firebaseio.com/v0';
 const NUMBER_POSTS_TO_FETCH = 6;
 
-export default function HackerNews() {
+export default function JobBoard() {
   const [jobIds, setJobIds] = useState<number[]>([]);
   const [jobs, setJobs] = useState<HackerNewsJob[]>([]);
 
@@ -44,7 +39,7 @@ export default function HackerNews() {
     id: job.id,
     title: job.title,
     by: job.by,
-    postedAt: `${new Date(job.time * 1000).toLocaleDateString()}, ${new Date(job.time * 1000).toLocaleTimeString('en-US')}`,
+    postedAt: timestampToDateAndTime(job.time),
     url: job.url,
   }));
 
@@ -62,12 +57,13 @@ export default function HackerNews() {
   };
 
   return (
-    <section className='hackernews'>
-      <h1 className='hackernews__title'>Hacker News Jobs Board</h1>
+    <section className='jobBoard'>
+      <h1 className='jobBoard__title'>Hacker News Jobs Board</h1>
       <JobsList jobs={formattedJobs} />
       {jobIds.length > 0 && (
         <button
-          className='hackernews__button'
+          type='button'
+          className='jobBoard__button'
           onClick={onLoadMore}
         >
           Load more jobs
